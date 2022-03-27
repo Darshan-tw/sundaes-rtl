@@ -20,7 +20,7 @@ describe('State of Checkbox and Button on initial page load', ()=>{
         userEvent.click(checkbox)
         expect(button).toBeEnabled()
     })
-    test('button should be disabled on checkbox click twice', ()=> {
+    test('button should be disabled on checkbox click two times on checkbox', ()=> {
         render(<SummaryForm/>)
         const checkbox = screen.getByRole('checkbox', {name:'I agree to Terms and Conditions'})
         const button = screen.getByRole('button', {name:'Submit'})
@@ -37,14 +37,11 @@ describe('State of Checkbox and Button on initial page load', ()=>{
         expect(popover).not.toBeInTheDocument()
     })
 
-    test('popover should be shown on hover on Terms and Conditions text and disappear on unhover', ()=> {
+    test('popover should be shown on hover on Terms and Conditions text and disappear on unhover',  ()=> {
         render(<SummaryForm/>)
-        const popover = screen.queryByText(/No ice cream will actually be delivered/i)
         const termsText = screen.getByText(/Terms and Conditions/i)
-        console.log("termsText", termsText)
         userEvent.hover(termsText)
-        expect(termsText).toHaveAttribute('area-describedby', 'termsandconditions-popover')
-        userEvent.unhover(termsText)
-        expect(termsText).not.toHaveAttribute('area-describedby', 'termsandconditions-popover')
+        const popover = screen.queryByText(/No ice cream will actually be delivered/i)
+        expect(popover).toBeInTheDocument()
     })
 })
