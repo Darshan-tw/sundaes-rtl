@@ -1,6 +1,6 @@
 import {screen, render} from "@testing-library/react";
 import userEvent from '@testing-library/user-event'
-import {SummaryForm} from '../SummaryForm'
+import {SummaryForm} from "../SummaryForm";
 
 describe('State of Checkbox and Button on initial page load', ()=>{
     test('checkbox should unchecked on page render', ()=> {
@@ -10,20 +10,20 @@ describe('State of Checkbox and Button on initial page load', ()=>{
     })
     test('button should be disabled on page render', ()=> {
         render(<SummaryForm/>)
-        const button = screen.getByRole('button', {name:'Submit'})
+        const button = screen.getByRole('button', {name:'Confirm order'})
         expect(button).toBeDisabled()
     })
     test('button should be enabled on checkbox checked', ()=> {
         render(<SummaryForm/>)
         const checkbox = screen.getByRole('checkbox', {name:'I agree to Terms and Conditions'})
-        const button = screen.getByRole('button', {name:'Submit'})
+        const button = screen.getByRole('button', {name:'Confirm order'})
         userEvent.click(checkbox)
         expect(button).toBeEnabled()
     })
     test('button should be disabled on checkbox click two times on checkbox', ()=> {
         render(<SummaryForm/>)
         const checkbox = screen.getByRole('checkbox', {name:'I agree to Terms and Conditions'})
-        const button = screen.getByRole('button', {name:'Submit'})
+        const button = screen.getByRole('button', {name:'Confirm order'})
         userEvent.click(checkbox)
         expect(button).toBeEnabled()
         userEvent.click(checkbox)

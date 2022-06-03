@@ -1,40 +1,43 @@
-import React, {useState} from 'react';
-import {Button, Col, Form, OverlayTrigger, Popover, Row, Tooltip} from "react-bootstrap";
+import React, { useState } from "react";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Popover from "react-bootstrap/Popover";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import {Tooltip} from "react-bootstrap";
 
-const Pop = () => {
+console.log({React, Form, Button, Popover, OverlayTrigger})
+export const SummaryForm = ({ setOrderPhase }) => {
+    const [tcChecked, setTcChecked] = useState(false);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        // pass along to the next phase.
+        // The next page will handle submitting order from context.
+        setOrderPhase("completed");
+    }
     return (
-    <Tooltip id={'termsandconditions-popover'}>
-        No ice cream will actually be delivered
-    </Tooltip>
-    )
-}
-
-const CheckboxLabel =  () => {
-    return(
-        <span>
-      I agree to
-      <OverlayTrigger placement="right" overlay={Pop()}>
-        <span style={{ color: 'blue'}}> Terms and Conditions</span>
-      </OverlayTrigger>
-    </span>
-)
-};
-
-export const SummaryForm = () => {
-    const [isButtonDisabled, setIsButtonDisabled] = useState(true)
-    return (
-        <Row>
-            <Col>
-                <Form>
-                    <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label={<CheckboxLabel/>} onChange={(event) => setIsButtonDisabled(!event.target.checked)}/>
-                    </Form.Group>
-                    <Button variant="primary" type="submit" disabled={isButtonDisabled}>
-                        Submit
-                    </Button>
-                </Form>
-            </Col>
-        </Row>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="terms-and-conditions">
+                <Form.Check
+                    type="checkbox"
+                    checked={tcChecked}
+                    onChange={(e) => setTcChecked(e.target.checked)}
+                    label={
+                        <span>
+                          I agree to
+                            <OverlayTrigger overlay={
+                                (<Tooltip id="hi">No ice cream will actually be delivered</Tooltip>)
+                            } placement="top">
+                                <span style={{ color: "blue" }}> Terms and Conditions</span>
+                            </OverlayTrigger>
+                        </span>
+                    }
+                />
+            </Form.Group>
+            <Button variant="primary" type="submit" disabled={!tcChecked}>
+                Confirm order
+            </Button>
+        </Form>
     );
 }
-
